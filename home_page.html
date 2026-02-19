@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>MangaList</title>
+</head>
+<body>
+    <header class="navbar">
+        <h1 class="logo">MangaList</h1>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">My Favorites</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile">
+            <div class="avatar"></div>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <!-- Will add content to this later -->
+            <h2 class="hero-title"></h2>
+            <p class="hero-synopsis"></p>
+            <button class="btn-read"></button>
+            <button class="btn-info"></button>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <main class="dashboard">
+
+        <div class="row">
+            <h3 class="row-title">Popular Action</h3>
+            <div class="row-container">
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="row-title">New Releases</h3>
+            <div class="row-container">
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+                <div class="manga-card"><div class="card-placeholder">Cover Image</div></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="api_service.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
