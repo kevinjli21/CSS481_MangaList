@@ -94,14 +94,14 @@ function setupModalListener() {
 
 function openModal(manga) {
     const modal = document.getElementById('manga-modal');
-    const banner = modal.querySelector('.modal-banner');
+    const coverImage = modal.querySelector('.modal-cover-image');
     const title = modal.querySelector('.modal-title');
     const rating = modal.querySelector('.modal-rating');
     const status = modal.querySelector('.modal-status');
     const synopsis = modal.querySelector('.modal-synopsis');
     const tagsContainer = modal.querySelector('.modal-tags');
 
-    banner.style.backgroundImage = `url('${manga.coverImage}')`;
+    coverImage.style.backgroundImage = `url('${manga.coverImage}')`;
     title.textContent = manga.title;
     synopsis.textContent = manga.description;
     rating.textContent = manga.rating ? manga.rating.toUpperCase() : 'N/A';
