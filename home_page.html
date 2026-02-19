@@ -60,6 +60,33 @@
 
     </main>
 
+    <div id="manga-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="close-btn">&times;</button>
+
+            <div class="modal-banner">
+                <div class="modal-banner-overlay"></div>
+            </div>
+
+            <div class="modal-body">
+                <h2 class="modal-title">Manga Title</h2>
+                <div class="modal-meta">
+                    <span class="modal-rating">PG-13</span>
+                    <span class="modal-status">Ongoing</span>
+                </div>
+                <p class="modal-synopsis">Synopsis goes here...</p>
+
+                <div class="modal-tags"></div>
+
+                <div class="modal-actions">
+                    <button class="btn-read">Read Now</button>
+                    <button class="btn-favorite">Add to Favorites</button> <!-- Will probably change to icon -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="api_service.js"></script>
     <script src="main.js"></script>
 </body>

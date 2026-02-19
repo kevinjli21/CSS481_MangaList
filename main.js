@@ -7,6 +7,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Wait for HTML to fully load before trying to manipulate it
     initDashboard();
+
+    setupModalListener();
 });
 
 async function initDashboard() {
@@ -34,6 +36,7 @@ async function loadHeroBanner(titleQuery) {
         const banner = document.querySelector('.hero-banner');
         const titleElem = document.querySelector('.hero-title');
         const synopsisElem = document.querySelector('.hero-synopsis');
+        const moreInfoBtn = document.querySelector('.btn-info');
 
         banner.style.backgroundImage = `url('${manga.coverImage}')`;
         titleElem.textContent = manga.title;
@@ -43,6 +46,8 @@ async function loadHeroBanner(titleQuery) {
             ? manga.description.substring(0, 150) + '...'
             : manga.description;
         synopsisElem.textContent = shortDesc;
+
+        moreInfoBtn.onclick = () => openModal(manga);
     } else {
         console.error("No manga found for the hero banner.");
     }
@@ -69,8 +74,56 @@ async function populateRow(containerElem, query, limit) {
         // Add click listener for More Info / Reading phase
         card.addEventListener('click', () => {
             console.log(`Clicked on ${manga.title} (ID: ${manga.id})`);
-            // TODO: Trigger the detailed info popup here
+            openModal(manga);
         });
         containerElem.appendChild(card);
     });
+}
+
+/**
+ * Modal (More Info Popup) Logic
+ */
+
+function setupModalListener() {
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.modal-overlay');
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+}
+
+function openModal(manga) {
+    const modal = document.getElementById('manga-modal');
+    const banner = modal.querySelector('.modal-banner');
+    const title = modal.querySelector('.modal-title');
+    const rating = modal.querySelector('.modal-rating');
+    const status = modal.querySelector('.modal-status');
+    const synopsis = modal.querySelector('.modal-synopsis');
+    const tagsContainer = modal.querySelector('.modal-tags');
+
+    banner.style.backgroundImage = `url('${manga.coverImage}')`;
+    title.textContent = manga.title;
+    synopsis.textContent = manga.description;
+    rating.textContent = manga.rating ? manga.rating.toUpperCase() : 'N/A';
+    status.textContent = manga.status ? manga.status.charAt(0).toUpperCase() + manga.status.slice(1) : 'Unknown';
+
+    tagsContainer.innerHTML = '';
+    if (manga.tags && manga.tags.length > 0) {
+        manga.tags.forEach(tagText => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tag';
+            tagSpan.textContent = tagText;
+            tagsContainer.appendChild(tagSpan);
+        });
+    }
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('manga-modal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    document.body.style.overflowX = 'hidden';
 }
