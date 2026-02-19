@@ -7,10 +7,11 @@
 // Base Configuration
 // const BASE_URL = 'https://api.mangadex.org';
 const BASE_URL = 'http://127.0.0.1:5000';
-const COVER_URL = 'https://uploads.mangadex.org/covers';
+// const COVER_URL = 'https://uploads.mangadex.org/covers';
+const COVER_URL = `${BASE_URL}/cover`;
 
 /**
- * Data Nromalization Layer
+ * Data Normalization Layer
  * 
  * Transforms complex MangaDex API responses into a clean, flat object for the MangaList UI.
  */
@@ -25,7 +26,7 @@ function normalizeMangaData(manga) {
     return {
         id: manga.id,
         title: attributes.title.en || Object.values(attributes.title)[0],
-        description: attributes.description.en || "No description available.",
+        description: attributes.description ? (attributes.description.en || "No description available.") : "No description available",
         status: attributes.status,
         tags: attributes.tags.map(tag => tag.attributes.name.en).slice(0, 5),    // Create a limit for tags for now until we can test them and find a good limit or have no limit
         coverImage: coverFileName
@@ -69,6 +70,25 @@ const MangaService = {
         } catch (error) {
             console.error("MangaList API Error:", error);
             return [];
+        }
+    },
+
+    /**
+     * Get a specific Manga by its ID
+     * 
+     * @param {string} mangaId
+     */
+    async getMangaById(mangaId) {
+        try {
+            const response = await fetch(`${BASE_URL}/manga/${mangaId}`);
+            const data = await response.json();
+
+            if (!data || !data.data) return null;
+
+            return normalizeMangaData(data.data);
+        } catch (error) {
+            console.error("Error fetching specific manga:", error);
+            return null;
         }
     },
 
