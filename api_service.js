@@ -1,3 +1,9 @@
+/**
+ * api_service.js - Data Fetching Service
+ * 
+ * Acts as specialized middleware that manages API integration, data normalization, and communication with the backend.
+ */
+
 // Base Configuration
 // const BASE_URL = 'https://api.mangadex.org';
 const BASE_URL = 'http://127.0.0.1:5000';
