@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function initDashboard() {
     // Load the Hero Banner with a featured title
     // Will probably change to be dynamic
-    await loadHeroBanner("aa6c76f7-5f5f-46b9-9220-71f531ea365d");
+    await loadHeroBanner("Sono Bosque Doll wa Koi");
 
     // Load scrollable rows
     const rowContainers = document.querySelectorAll('.row-container');
@@ -26,10 +26,11 @@ async function initDashboard() {
     }
 }
 
-async function loadHeroBanner(mangaId) {
-    const manga = await MangaService.getMangaById(mangaId)
+async function loadHeroBanner(titleQuery) {
+    const results = await MangaService.searchManga(titleQuery, 5)
 
-    if (manga) {
+    if (results.length > 0) {
+        const manga = results.find(m => m.author.includes('Fukuda') || m.author.includes('Shinichi')) || results[0];
         const banner = document.querySelector('.hero-banner');
         const titleElem = document.querySelector('.hero-title');
         const synopsisElem = document.querySelector('.hero-synopsis');
@@ -42,6 +43,8 @@ async function loadHeroBanner(mangaId) {
             ? manga.description.substring(0, 150) + '...'
             : manga.description;
         synopsisElem.textContent = shortDesc;
+    } else {
+        console.error("No manga found for the hero banner.");
     }
 }
 
