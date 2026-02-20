@@ -62,21 +62,31 @@ async function populateRow(containerElem, query, limit) {
 
     // Generate new dynamic cards
     mangaList.forEach(manga => {
+        // Creating wrapper container
+        const itemContainer = document.createElement('div');
+        itemContainer.className = 'manga-item';
+
+        // Creating card cover image
         const card = document.createElement('div');
         card.className = 'manga-card';
-
-        // Set cover image directly as the background
         card.style.backgroundImage = `url('${manga.coverImage}')`;
         card.style.backgroundSize = 'cover';
         card.style.backgroundPosition = 'center';
         card.title = manga.title;
 
-        // Add click listener for More Info / Reading phase
-        card.addEventListener('click', () => {
-            console.log(`Clicked on ${manga.title} (ID: ${manga.id})`);
-            openModal(manga);
-        });
-        containerElem.appendChild(card);
+        // This adds the title text below the card
+        const titleElem = document.createElement('div');
+        titleElem.className = 'manga-title-below';
+        titleElem.textContent = manga.title;
+        titleElem.title = manga.title;
+
+        // Listens to both image and text to open the modal
+        card.addEventListener('click', () => openModal(manga));
+        titleElem.addEventListener('click', () => openModal(manga));
+
+        itemContainer.appendChild(card);
+        itemContainer.appendChild(titleElem);
+        containerElem.appendChild(itemContainer);
     });
 }
 
