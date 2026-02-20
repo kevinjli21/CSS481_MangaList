@@ -195,7 +195,6 @@ nav a:hover, nav a.active {
     border-radius: 4px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-image: url(https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png)
 }
 
 .manga-card:hover {
@@ -226,6 +225,7 @@ nav a:hover, nav a.active {
     align-items: center;
     height: 100%;
     color: #666;
+    background-image: url(https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png);
 }
 
 /* Modal (More Info Popup) Styles */
