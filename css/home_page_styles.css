@@ -195,6 +195,7 @@ nav a:hover, nav a.active {
     border-radius: 4px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-image: url(https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png)
 }
 
 .manga-card:hover {
