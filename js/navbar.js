@@ -92,7 +92,7 @@ function setupSearch() {
             searchDropdown.classList.remove('hidden');
 
             try {
-                const results = await MangaService.searchManga(query, 5);
+                const results = await MangaService.searchManga(query, 5, null);
 
                 searchDropdown.innerHTML = '';
                 if (results.length === 0) {
