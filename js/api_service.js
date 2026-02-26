@@ -6,7 +6,7 @@
 
 // Base Configuration
 // const BASE_URL = 'https://api.mangadex.org';
-const BASE_URL = 'http://127.0.0.1:5000';
+const BASE_URL = 'http://127.0.0.1:1234';
 // const COVER_URL = 'https://uploads.mangadex.org/covers';
 const COVER_URL = `${BASE_URL}/cover`;
 

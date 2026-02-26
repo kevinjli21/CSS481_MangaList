@@ -136,7 +136,7 @@ def get_manga_feed(manga_id):
     
 # Server Entry Point
 if __name__ == '__main__':
-    print("✅ MangaList Python Backend is running on http://127.0.0.1:5000")
+    print("✅ MangaList Python Backend is running on http://127.0.0.1:1234")
     print("   - Proxying requests to: " + BASE_URL)
 
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=1234)
