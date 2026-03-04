@@ -15,8 +15,11 @@ function injectAuthModel() {
                 <button id="close-auth-btn" class="close-btn">&times;</button>
                 <h2 id="auth-title">Sign In</h2>
                 <form id="auth-form">
-                    <input type="email" id="auth-email" placeholder="Email Address" required>
-                    <input type="password" id="auth-password" placeholder="Password" required>
+                    <input type="email" id="auth-email" placeholder="Email Address" autocomplete="off" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="auth-password" placeholder="Password" autocomplete="new-password" required>
+                        <span id="toggle-password" class="toggle-password">Show</span>
+                    </div>
                     <button type="submit" class="btn-read" style="width: 100%; margin-top: 20px; padding: 14px;">Sign In</button>
                     <p id="auth-error" style="color: #e50914; font-size: 0.85rem; margin-top: 10px; display: none;"></p>
                     <p class="auth-switch"><span id="auth-toggle-pretext">New to MangaList? </span><span id="auth-toggle">Sign up now.</span></p>
@@ -40,6 +43,9 @@ function setupAuthListeners() {
 
     // Open/Close logic
     document.getElementById('nav-login-btn')?.addEventListener('click', () => {
+        document.getElementById('auth-email').value = '';
+        document.getElementById('auth-password').value = '';
+
         authModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     })
@@ -49,6 +55,8 @@ function setupAuthListeners() {
         document.body.style.overflow = 'auto';
         authForm.reset();
         authError.style.display = 'none';
+        passwordInput.setAttribute('type', 'password');
+        togglePasswordBtn.textContent = 'Show';
     };
 
     document.getElementById('close-auth-btn').addEventListener('click', closeModal);
@@ -60,15 +68,25 @@ function setupAuthListeners() {
         if (isSignUpMode) {
             authTitle.textContent = 'Sign Up';
             submitBtn.textContent = 'Sign Up';
-            togglePretext.textContent = 'Already have an account?';
+            togglePretext.textContent = 'Already have an account? ';
             authToggle.textContent = 'Sign in now.';
         } else {
-            authTitle.textContent = 'Sign Up';
-            submitBtn.textContent = 'Sign Up';
-            togglePretext.textContent = 'New to MangaList?';
+            authTitle.textContent = 'Sign In';
+            submitBtn.textContent = 'Sign In';
+            togglePretext.textContent = 'New to MangaList? ';
             authToggle.textContent = 'Sign up now.';
         }
         authError.style.display = 'none';
+    });
+
+    // Toggle Show/Hide Password
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('auth-password');
+
+    togglePasswordBtn.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePasswordBtn.textContent = type === 'password' ? 'Show' : 'Hide';
     });
 
     // Form submission communication to Firebase
@@ -83,10 +101,13 @@ function setupAuthListeners() {
         try {
             if (isSignUpMode) {
                 await auth.createUserWithEmailAndPassword(email, password);
+                await CloudSync.saveToCloud();
             } else {
-                auth.signInWithEmailAndPassword(email, password);
+                await auth.signInWithEmailAndPassword(email, password);
+                await CloudSync.loadFromCloud();
             }
             closeModal();
+            window.location.reload();
         } catch (error) {
             authError.textContent = error.message;
             authError.style.display = 'block';
@@ -95,9 +116,14 @@ function setupAuthListeners() {
     });
 
     // Handle Log Out
-    document.getElementById('nav-logout-btn')?.addEventListener('click', (e) => {
+    document.getElementById('nav-logout-btn')?.addEventListener('click', async (e) => {
         e.preventDefault();
-        auth.signOut();
+        await auth.signOut();
+
+        localStorage.removeItem('mangaFavorites');
+        localStorage.removeItem('readingProgress');
+
+        window.location.href = 'index.html';
     });
 
     // Global Firebase State Observer
